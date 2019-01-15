@@ -98,24 +98,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorBadDriveLetter" xml:space="preserve">
-    <value>Bad drive letter</value>
+    <value>Mauvaise lettre de lecteur</value>
   </data>
   <data name="ErrorDriverInstall" xml:space="preserve">
-    <value>Can't install the Dokan driver</value>
+    <value>Impossible d'installer le driver Dokan</value>
   </data>
   <data name="ErrorAssignDriveLetter" xml:space="preserve">
-    <value>Can't assign a drive letter or mount point</value>
+    <value>Impossible d'assigner la lettre ou le point de montage</value>
   </data>
   <data name="ErrorStart" xml:space="preserve">
-    <value>Something's wrong with the Dokan driver</value>
+    <value>Il y a eu une erreur dans le driver Dokan</value>
   </data>
   <data name="ErrorMountPointInvalid" xml:space="preserve">
-    <value>Mount point is invalid</value>
+    <value>Le point de montage est invalide</value>
   </data>
   <data name="ErrorVersion" xml:space="preserve">
-    <value>Version error</value>
+    <value>Erreur de version</value>
   </data>
   <data name="ErrorDokan" xml:space="preserve">
-    <value>Dokan error</value>
+    <value>Erreur Dokan</value>
   </data>
 </root>

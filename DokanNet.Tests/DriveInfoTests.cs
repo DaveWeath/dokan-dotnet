@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static DokanNet.Tests.FileSettings;
@@ -20,8 +19,7 @@ namespace DokanNet.Tests
         [TestCleanup]
         public void Cleanup()
         {
-            bool hasUnmatchedInvocations = false;
-            DokanOperationsFixture.ClearInstance(out hasUnmatchedInvocations);
+            DokanOperationsFixture.ClearInstance(out bool hasUnmatchedInvocations);
             Assert.IsFalse(hasUnmatchedInvocations, "Found Mock invocations without corresponding setups");
         }
 
@@ -37,7 +35,7 @@ namespace DokanNet.Tests
             fixture.ExpectGetDiskFreeSpace(freeBytesAvailable: availableFreeSpace);
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Assert.AreEqual(0, sut.AvailableFreeSpace, nameof(sut.AvailableFreeSpace));
@@ -56,11 +54,11 @@ namespace DokanNet.Tests
 #if LOGONLY
             fixture.SetupAny();
 #else
-            fixture.ExpectOpenDirectory(DokanOperationsFixture.RootName, FileAccess.Synchronize, FileShare.None);
-            fixture.ExpectGetVolumeInformation(DokanOperationsFixture.VOLUME_LABEL, DokanOperationsFixture.FILESYSTEM_NAME);
+            fixture.ExpectOpenDirectory(DokanOperationsFixture.RootName, FileAccess.Synchronize, FileShare.ReadWrite);
+            fixture.ExpectGetVolumeInformation(DokanOperationsFixture.VOLUME_LABEL, DokanOperationsFixture.FILESYSTEM_NAME, 256);
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Assert.IsNotNull(sut.DriveFormat, nameof(sut.DriveFormat));
@@ -75,7 +73,7 @@ namespace DokanNet.Tests
         [TestMethod, TestCategory(TestCategories.Success)]
         public void GetDriveType_CallsApiCorrectly()
         {
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if NETWORK_DRIVE
             Assert.AreEqual(DriveType.Network, sut.DriveType, nameof(sut.DriveType));
@@ -89,7 +87,7 @@ namespace DokanNet.Tests
         {
             var fixture = DokanOperationsFixture.Instance;
 
-            string path = DokanOperationsFixture.RootName;
+            var path = DokanOperationsFixture.RootName;
 #if LOGONLY
             fixture.SetupAny();
 #else
@@ -98,7 +96,7 @@ namespace DokanNet.Tests
             fixture.ExpectGetFileInformation(path, FileAttributes.Directory, creationTime: anyDateTime, lastWriteTime: anyDateTime, lastAccessTime: anyDateTime);
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Console.WriteLine($"sut.IsReady {sut.IsReady}");
@@ -110,9 +108,9 @@ namespace DokanNet.Tests
         [TestMethod, TestCategory(TestCategories.Success)]
         public void GetName_CallsApiCorrectly()
         {
-            string path = DokanOperationsFixture.RootName.AsDriveBasedPath();
+            var path = DokanOperationsFixture.RootName.AsDriveBasedPath();
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
             Assert.AreEqual(path, sut.Name, nameof(sut.Name));
         }
@@ -120,19 +118,19 @@ namespace DokanNet.Tests
         [TestMethod, TestCategory(TestCategories.Success)]
         public void GetRootDirectory_CallsApiCorrectly()
         {
-            string path = DokanOperationsFixture.RootName.AsDriveBasedPath();
+            var path = DokanOperationsFixture.RootName.AsDriveBasedPath();
 
 #if LOGONLY
             fixture.SetupAny();
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Assert.IsNotNull(sut.RootDirectory, nameof(sut.RootDirectory));
             Console.WriteLine(sut.RootDirectory);
 #else
-            Assert.AreEqual(path, sut.RootDirectory?.Name, nameof(sut.RootDirectory));
+            Assert.AreEqual(path, sut.RootDirectory.Name, nameof(sut.RootDirectory));
 #endif
         }
 
@@ -148,7 +146,7 @@ namespace DokanNet.Tests
             fixture.ExpectGetDiskFreeSpace(totalNumberOfFreeBytes: totalFreeSpace);
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Assert.AreEqual(0, sut.TotalFreeSpace, nameof(sut.TotalFreeSpace));
@@ -171,7 +169,7 @@ namespace DokanNet.Tests
             fixture.ExpectGetDiskFreeSpace(totalNumberOfBytes: totalSize);
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Assert.AreEqual(0, sut.TotalSize, nameof(sut.TotalSize));
@@ -190,11 +188,11 @@ namespace DokanNet.Tests
 #if LOGONLY
             fixture.SetupAny();
 #else
-            fixture.ExpectOpenDirectory(DokanOperationsFixture.RootName, FileAccess.Synchronize, FileShare.None);
-            fixture.ExpectGetVolumeInformation(DokanOperationsFixture.VOLUME_LABEL, DokanOperationsFixture.FILESYSTEM_NAME);
+            fixture.ExpectOpenDirectory(DokanOperationsFixture.RootName, FileAccess.Synchronize, FileShare.ReadWrite);
+            fixture.ExpectGetVolumeInformation(DokanOperationsFixture.VOLUME_LABEL, DokanOperationsFixture.FILESYSTEM_NAME, 256);
 #endif
 
-            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            var sut = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
 
 #if LOGONLY
             Assert.IsNotNull(sut.VolumeLabel, nameof(sut.VolumeLabel));

@@ -1,22 +1,25 @@
-using DokanNet;
 using System;
+using DokanNet;
 
 namespace DokanNetMirror
 {
-    internal class Programm
+    internal class Program
     {
         private static void Main(string[] args)
         {
             try
             {
-                Mirror mirror = new Mirror("C:");
+                bool unsafeReadWrite = args.Length > 0 && args[0].Equals("-unsafe", StringComparison.OrdinalIgnoreCase);
+
+                Console.WriteLine($"Using unsafe methods: {unsafeReadWrite}");
+                var mirror = unsafeReadWrite ? new UnsafeMirror("C:") : new Mirror("C:");
                 mirror.Mount("n:\\", DokanOptions.DebugMode, 5);
 
-                Console.WriteLine("Success");
+                Console.WriteLine(@"Success");
             }
             catch (DokanException ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine(@"Error: " + ex.Message);
             }
         }
     }

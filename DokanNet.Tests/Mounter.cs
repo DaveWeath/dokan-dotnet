@@ -1,8 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DokanNet.Tests
 {
@@ -10,17 +9,28 @@ namespace DokanNet.Tests
     public static class Mounter
     {
         private static Thread mounterThread;
+        private static Thread mounterThread2;
 
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext context)
         {
+            var dokanOptions = DokanOptions.DebugMode | DokanOptions.MountManager | DokanOptions.CurrentSession;
 #if NETWORK_DRIVE
-            (mounterThread = new Thread(new ThreadStart(() => DokanOperationsFixture.Operations.Mount(DokanOperationsFixture.MOUNT_POINT, DokanOptions.DebugMode | DokanOptions.NetworkDrive, 5)))).Start();
+            dokanOptions |= DokanOptions.NetworkDrive;
 #else
-            (mounterThread = new Thread(new ThreadStart(() => DokanOperationsFixture.Operations.Mount(DokanOperationsFixture.MOUNT_POINT, DokanOptions.DebugMode | DokanOptions.RemovableDrive, 5)))).Start();
+            dokanOptions |= DokanOptions.RemovableDrive;
 #endif
-            var drive = new DriveInfo(DokanOperationsFixture.MOUNT_POINT);
-            while (!drive.IsReady)
+#if USER_MODE_LOCK
+            dokanOptions |= DokanOptions.UserModeLock;
+#endif
+
+            (mounterThread = new Thread(() => DokanOperationsFixture.Operations.Mount(DokanOperationsFixture.NormalMountPoint, dokanOptions, 5))).Start();
+            (mounterThread2 = new Thread(() => DokanOperationsFixture.UnsafeOperations.Mount(DokanOperationsFixture.UnsafeMountPoint, dokanOptions, 5))).Start();
+            var drive = new DriveInfo(DokanOperationsFixture.NormalMountPoint);
+            var drive2 = new DriveInfo(DokanOperationsFixture.UnsafeMountPoint);
+            while (!drive.IsReady || !drive2.IsReady)
+                Thread.Sleep(50);
+            while (DokanOperationsFixture.HasPendingFiles)
                 Thread.Sleep(50);
         }
 
@@ -28,8 +38,11 @@ namespace DokanNet.Tests
         public static void AssemblyCleanup()
         {
             mounterThread.Abort();
-            Dokan.Unmount(DokanOperationsFixture.MOUNT_POINT[0]);
-            Dokan.RemoveMountPoint(DokanOperationsFixture.MOUNT_POINT.ToString(CultureInfo.InvariantCulture));
+            mounterThread2.Abort();
+            Dokan.Unmount(DokanOperationsFixture.NormalMountPoint[0]);
+            Dokan.Unmount(DokanOperationsFixture.UnsafeMountPoint[0]);
+            Dokan.RemoveMountPoint(DokanOperationsFixture.NormalMountPoint);
+            Dokan.RemoveMountPoint(DokanOperationsFixture.UnsafeMountPoint);
         }
     }
 }

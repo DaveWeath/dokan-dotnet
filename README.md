@@ -21,7 +21,7 @@ To install DokanNet, run the following command in the Package Manager Console
 Dokan.NET Binding is distributed under a version of the "MIT License",
 which is a BSD-like license. See the 'license.mit.txt' file for details.
 
-##Environment
+## Environment
 Microsoft .NET Framework 4.0 and Dokan library
 
 ## How to write a file system
@@ -32,6 +32,7 @@ Semantics and parameters are just like Dokan library. Details are described
 at 'README.md' file in Dokan library. See sample codes under 'sample'
 directory. Administrator privileges are required to run file system
 applications.
+Doxygen documentation is also available [here](https://dokan-dev.github.io/dokan-dotnet-doc/html/).
 
 ## Unmounting
 Just run the bellow command or your file system application call Dokan.Unmount

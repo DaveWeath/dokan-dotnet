@@ -1,20 +1,27 @@
 ﻿using System;
+using DokanNet.Native;
 
 namespace DokanNet
 {
     /// <summary>
-    /// Dokan mount options used to describe dokan device behaviour.
+    /// Dokan mount options used to describe dokan device behavior. 
     /// </summary>
+    /// \if PRIVATE
+    /// <seealso cref="DOKAN_OPTIONS.Options"/>
+    /// \endif
     [Flags]
     public enum DokanOptions : long
     {
-        /// <summary>Enable ouput debug message</summary>
+        /// <summary>Fixed Drive.</summary>
+        FixedDrive = 0,
+
+        /// <summary>Enable output debug message.</summary>
         DebugMode = 1,
 
-        /// <summary>Enable ouput debug message to stderr</summary>
+        /// <summary>Enable output debug message to stderr.</summary>
         StderrOutput = 2,
 
-        /// <summary>Use alternate stream</summary>
+        /// <summary>Use alternate stream.</summary>
         AltStream = 4,
 
         /// <summary>Enable mount drive as write-protected.</summary>
@@ -23,16 +30,16 @@ namespace DokanNet
         /// <summary>Use network drive - Dokan network provider need to be installed.</summary>
         NetworkDrive = 16,
 
-        /// <summary>Use removable drive</summary>
+        /// <summary>Use removable drive.</summary>
         RemovableDrive = 32,
 
-        /// <summary>Use mount manager</summary>
+        /// <summary>Use mount manager.</summary>
         MountManager = 64,
 
-        /// <summary>Mount the drive on current session only</summary>
+        /// <summary>Mount the drive on current session only.</summary>
         CurrentSession = 128,
 
-        /// <summary>Fixed Driver</summary>
-        FixedDrive = 0,
+        /// <summary>Enable Lockfile/Unlockfile operations.</summary>
+        UserModeLock = 256
     }
 }

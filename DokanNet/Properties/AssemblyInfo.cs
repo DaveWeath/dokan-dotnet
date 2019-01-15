@@ -1,43 +1,5 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
 
-//
-// General Information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-
-[assembly: AssemblyTitle("DokanNet")]
-[assembly: AssemblyDescription(".NET wrapper for dokan - user mode filesystem")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DokanNet")]
-[assembly: AssemblyCopyright("Copyright (C) 2015")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible
-// to COM components.  If you need to access a type in this assembly from
-// COM, set the ComVisible attribute to true on that type.
-
-[assembly: ComVisible(true)]
-[assembly: CLSCompliant(true)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-
-[assembly: Guid("faf94eee-9bae-4ada-8f96-614ca17f7854")]
-
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.8.0")]
-[assembly: AssemblyFileVersion("1.0.8.0")]
+// Make internals visible to tests.
+[assembly:InternalsVisibleTo("DokanNet.Tests.net4.5, PublicKey=00240000048000009400000006020000002400005253413100040000010001008f83c86f027aaf91b9a5b847ed7a1a3139ec0a899ba7d9cb807c0f019ada751f006179a95a9578dbc18c58c91d1e2f736f418397e3914f77a97c2a08cbadeca4e1a3f1cb90c2adfc44ffb0d2842ed91aa644eea9f8f54148406861288b79d83146a39c7b08af0e533027b4f60f4ea9a3e1508fd8ba0c134b680ec43c734c4cb6")]
+[assembly:InternalsVisibleTo("DokanNet.Tests.net4.6, PublicKey=00240000048000009400000006020000002400005253413100040000010001008f83c86f027aaf91b9a5b847ed7a1a3139ec0a899ba7d9cb807c0f019ada751f006179a95a9578dbc18c58c91d1e2f736f418397e3914f77a97c2a08cbadeca4e1a3f1cb90c2adfc44ffb0d2842ed91aa644eea9f8f54148406861288b79d83146a39c7b08af0e533027b4f60f4ea9a3e1508fd8ba0c134b680ec43c734c4cb6")]
